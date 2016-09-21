@@ -1,0 +1,109 @@
+﻿@model Neowise.Models.FiltersModel
+
+@{
+   ViewBag.Title = "ReportInterface";
+ }
+
+<h2>Reports</h2>
+
+<div id="reportGenerated"></div>
+@*
+@Html.ActionLink("Contract Type", "GetContractReport", "ReportFilters")
+
+@using (Ajax.BeginForm("GetCompanyReport", "ReportFilters", new AjaxOptions
+{
+    HttpMethod = "Post",
+    UpdateTargetId = "reportGenerated"
+}))
+{
+   @Html.DropDownList("CompanyId", new SelectList(Model.CompanyList, "Id","CompanyName"), "-- Select a Company --", new { id = "ddlCompany" })    
+   @Html.ActionLink("Contract Type", "GetContractReport", "ReportFilters")
+       
+   @Html.DropDownList("UserName", new SelectList(Model.UserList, "Id","Name"), "-- Select a User --", new { id = "ddlUser" })    
+    
+     <input type="submit" value="Add" />
+}*@
+
+
+ <form id="frmCompanyReport" action='@Url.Content("~/ReportFilters/GetCompanyReport")' method="post"> 
+     <table>
+         <tr>
+             <td>Company</td>
+             <td>@Html.DropDownList("IdCompany", new SelectList(Model.CompanyList, "Id","CompanyName"), new { id = "IdCompany",style = "width:300px;",onchange = "javascript:GetCompanyContracts(this.value);" })</td>
+         </tr>
+         <tr><td>Contract Type</td>
+             <td><select id="IdContract" name="IdContract" style = "width:300px;" onchange = "javascript:GetContractUsers(this.value);">
+                 <option value='0'>Select contract</option>
+                 </select></td></tr>
+         <tr><td>User</td><td><select id="IdUser" name="IdUser" style = "width:300px;"><option value='0'>Select user</option> </select></td></tr>
+         <tr><td colspan="2"><input type="submit" value="Generate Report" /></td></tr>
+     </table>       
+ </form>
+
+<div style="width:100%;">
+        <table style="width:100%;">
+            <tr>                
+                <td style="width:30%;"><h2>Report By Phone Number</h2></td>                
+            </tr>
+        </table>
+    </div><hr />
+
+ <form id="frmPhoneReport" action='@Url.Content("~/ReportFilters/GetReportByPhone")' method="post"> 
+     <table>
+         <tr>
+             <td>Phone Number</td>
+             <td><input type="text" id = "phoneNumber" name="phoneNumber"></td>
+         </tr>        
+         <tr><td colspan="2"><input type="submit" value="Generate Report" /></td></tr>
+     </table>       
+ </form>
+
+<script language="javascript" type="text/javascript">
+    function GetCompanyContracts(_companyId) {
+        var procemessage = "<option value='0'> Please wait...</option>";
+        $("#IdContract").html(procemessage).show();
+        var url = "GetContractsByCompany/";
+
+        $.ajax({
+            url: url,
+            data: { companyId: _companyId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Select Contract Type</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#IdContract").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+
+    function GetContractUsers(_contractId) {
+        var procemessage = "<option value='0'> Please wait...</option>";
+        $("#IdUser").html(procemessage).show();
+        var url = "GetUsersByContracts/";
+
+        $.ajax({
+            url: url,
+            data: { contractId: _contractId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Select User</option>";
+               for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#IdUser").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>

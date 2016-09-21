@@ -1,0 +1,54 @@
+﻿@model Neowise.Models.UserReportModel
+
+@{
+    ViewBag.Title = "User Report";
+}
+
+@if(Model!=null){
+    <h2>@Model.CompanyName</h2>
+    <h2>@Model.UserName</h2>
+}   
+
+<div style="width:100%;">
+        <table style="width:100%;">
+            <tr>                
+                <td style="width:30%;"><b>Total Cost:</b></td>
+                 <td style="width:30%;"><b>@Model.TotalCost</b></td>
+            </tr>
+        </table>
+    </div><hr />
+    
+    @foreach (var item in Model.UserUsage)
+    {
+        <div style="width:100%;">
+        <table style="width:100%;">
+            <tr>
+                <td style="width:60%;"><b>@item.ContractName</b></td>                
+            </tr>
+        </table>
+    </div><hr />
+        <table style="width:100%;">
+            <tr>
+               <td style="width:20%">Phone Number</td>
+                <td style="width:20%">Package Usage</td>
+                <td style="width:20%">Cost</td>
+                <td style="width:20%">Quantity</td>
+                <td style="width:20%">Minutes</td>
+                <td style="width:20%">DataTransfer</td>
+            </tr>
+            <tr>
+               <td style="width:20%">@item.PhoneNumber.Trim()</td>
+                <td style="width:20%">@item.PackageUsagePercentage %</td>
+                <td style="width:20%">@item.Cost</td>
+                <td style="width:20%">@item.Quantity</td>
+                <td style="width:20%">@item.Minutes</td>
+                <td style="width:20%">@item.DataTransfer</td>
+            </tr>
+        </table>
+    } 
+
+
+   
+
+
+

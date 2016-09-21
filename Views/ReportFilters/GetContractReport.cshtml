@@ -1,0 +1,37 @@
+﻿@model List<Neowise.Models.ContractWiseReport>
+
+@{
+    ViewBag.Title = "Contract Report";
+}
+
+@if(Model.Count!=0){
+    <h2>@Model[0].CompanyName</h2>
+}
+    
+@foreach (var contract in Model)
+{
+    <div style="width:100%;">
+        <table style="width:100%;">
+            <tr>
+                <td style="width:60%;"><b>@contract.ContractName</b></td>
+                <td style="width:30%;"><b>@contract.TotalCostByContract</b></td>
+            </tr>
+        </table>
+    </div><hr />
+    foreach (var item in contract.ContractUserList)
+    {
+        <table style="width:100%;">
+            <tr>
+                @*<td>@item.CompanyName</td>*@
+                <td style="width:20%">@item.UserName.Trim()</td>
+                <td style="width:20%">@item.PhoneNumber.Trim()</td>
+                <td style="width:20%">@item.Cost</td>
+            </tr>
+        </table>
+    } 
+}
+
+   
+
+
+

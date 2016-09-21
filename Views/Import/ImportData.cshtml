@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "ImportData";
+}
+
+<h2>Import Data</h2>
+
+@using (Html.BeginForm("StartImporting", "Import", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" />
+    <input type="submit" value="OK" />
+}
+
+@*
+<table>
+    <tr>
+        <td><input id="dataFile" type="file" /></td>
+        <td><input id="btnImport" type="button" /></td>
+        <td><span id="txtMsg"></span></td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("btnImport").click(function () {
+            $.ajax({
+                url: "Home/GlobalSearch/" + searchText,
+                type: 'POST',
+                success: function (data) {
+                    $("txtMsg").html(data);
+                }
+            });
+        });
+    });
+
+</script>
+*@
